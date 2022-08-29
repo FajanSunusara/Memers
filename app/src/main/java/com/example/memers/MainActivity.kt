@@ -4,18 +4,15 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -24,6 +21,9 @@ import com.bumptech.glide.request.target.Target
 import java.lang.Math.abs
 
 class MainActivity : AppCompatActivity(),GestureDetector.OnGestureListener {
+
+    var TAG : String = "MainActivity"
+
     lateinit var  gestureDetector: GestureDetector
     var x2 :Float = 0.0F
     var x1 :Float = 0.0F
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(),GestureDetector.OnGestureListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         gestureDetector = GestureDetector(this,this)
-        loadmeme()
+        loadMeme()
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -69,11 +69,11 @@ class MainActivity : AppCompatActivity(),GestureDetector.OnGestureListener {
                 {
                     if(x2>x1)
                     {
-                        Toast.makeText(this,"rigth swipe",Toast.LENGTH_SHORT).show()
+                        Log.d(TAG,"Right Swipe")
                     }
                     else
                     {
-                        Toast.makeText(this,"left swipe",Toast.LENGTH_SHORT).show()
+                        Log.d(TAG,"Left Swipe")
                         val intent = Intent(Intent.ACTION_SEND)
                         intent.type= "text/plain"
                         intent.putExtra(Intent.EXTRA_TEXT,"Check this meme $ciurl")
@@ -87,12 +87,12 @@ class MainActivity : AppCompatActivity(),GestureDetector.OnGestureListener {
                 {
                     if(y2>y1)
                     {
-                        Toast.makeText(this," swipe  down",Toast.LENGTH_SHORT).show()
+                        Log.d(TAG,"Swipe Down")
                     }
                     else
                     {
-                        Toast.makeText(this,"swipe  up",Toast.LENGTH_SHORT).show()
-                        loadmeme()
+                        Log.d(TAG,"Swipe Up")
+                        loadMeme()
                     }
 
                 }
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(),GestureDetector.OnGestureListener {
     }
 
 
-    private fun loadmeme(){
+    private fun loadMeme(){
         var pg  =findViewById<ProgressBar>(R.id.ProgressBar)
         pg.visibility = View.VISIBLE
         val img =findViewById<ImageView >(R.id.imageView1)
@@ -189,8 +189,5 @@ class MainActivity : AppCompatActivity(),GestureDetector.OnGestureListener {
 
 // Add the request to the RequestQueue.
         MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
-
     }
-
-
 }
